@@ -16,3 +16,20 @@ notifications:
   email:
     recipients:
       - 'kjp0602@gmail.com'
+
+before_deploy:
+  - zip -r springboot-webservice *
+  - mkdir -p deploy
+  - mv freelec-springboot2.zip deploy/springboot-webservice.zip
+
+deploy:
+  - provider:  s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+
+    bucket: kjp0602-springboot-webservice-build
+    region: us-east-2
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-deployed: true

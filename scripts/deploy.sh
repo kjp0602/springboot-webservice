@@ -8,16 +8,15 @@ cp $REPOSITORY/zip/*.jar $REPOSITORY/
 
 echo "> Running Application PID Check"
 
-CURRENT_PID=$(pgrep -fl $PROJECT_NAME | grep jar | awk '{print $1}')
+CURRENT_PID=$(pgrep -f ${PROJECT_NAME}.*.jar)
 
 echo "Now Running Application PID: $CURRENT_PID"
 
-if [ -z "$CURRENT_PID" ]; then
-        echo "> NOT Running APPlication"
-        kill -15 $CURRENT_PID
+if [ $CURRENT_PID -gt 0 ]; then
+        echo "> Shudown Running Old APPlication"
+        kill -9 $CURRENT_PID
         sleep 5
 fi
-echo "> New Application Deployed"
 
 JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
 echo " JAR Name: $JAR_NAME"

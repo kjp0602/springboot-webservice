@@ -1,11 +1,15 @@
 package com.tera.project.springboot.domain.user;
 
 import com.tera.project.springboot.domain.BaseTimeEntity;
+import com.tera.project.springboot.domain.consult.Consult;
+import com.tera.project.springboot.domain.consult.ConsultSaveHistory;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -27,6 +31,9 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<ConsultSaveHistory> consultSaveHistoryList = new ArrayList<>();
 
     @Builder
     public User(String name, String email, String picture, Role role) {
